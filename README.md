@@ -17,7 +17,18 @@ Built from the AI AutoCare customer-flow infographic:
 
 ## Stack
 
-Single-file static site: `index.html` (vanilla HTML/CSS/JS, no build step). Deployable anywhere; served via GitHub Pages.
+Single-file static site: `index.html` (vanilla HTML/CSS/JS, no build step), plus a Streamlit wrapper for Streamlit Cloud.
+
+## Deployments
+
+- **GitHub Pages** (auto-deploys from `main`): https://dvdlkj-glitch.github.io/ai-autocare-website/
+- **Streamlit Cloud**: point a new app at this repo with main file `streamlit_app.py` (serves the same site full-screen via `st.iframe`).
+
+Run locally with Streamlit:
+
+```
+streamlit run streamlit_app.py
+```
 
 ## Status
 
