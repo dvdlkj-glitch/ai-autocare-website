@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI AutoCare — Smart Service. Better Rides.</title>
+<meta name="description" content="AI-driven auto service workflow: enter via webpage or Telegram, get AI tire & maintenance recommendations, book, inspect, choose your quote, and receive smart follow-ups.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-900:#0d1f3c;
+  --navy-800:#132b52;
+  --navy-700:#1a3a6b;
+  --blue-600:#1d5bd6;
+  --blue-500:#2e6ee8;
+  --teal-600:#0e7490;
+  --teal-500:#0d94a8;
+  --teal-100:#e0f5f8;
+  --green-600:#0f8a4c;
+  --green-100:#e3f5ec;
+  --ink:#16233b;
+  --ink-soft:#4a5a75;
+  --ink-faint:#8494ad;
+  --paper:#f6f9fc;
+  --card:#ffffff;
+  --line:#dde6f0;
+  --radius-lg:20px;
+  --radius-md:14px;
+  --radius-sm:9px;
+  --shadow-1:0 1px 3px rgba(13,31,60,.06),0 4px 14px rgba(13,31,60,.05);
+  --shadow-2:0 6px 24px rgba(13,31,60,.10),0 2px 6px rgba(13,31,60,.06);
+  --font-display:'Sora',sans-serif;
+  --font-body:'Manrope',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.15;text-wrap:balance}
+p{text-wrap:pretty}
+img,svg{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.container{max-width:1140px;margin:0 auto;padding:0 24px}
+.section{padding:96px 0}
+.section-head{max-width:640px;margin:0 auto 56px;text-align:center}
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--teal-600);margin-bottom:14px;
+}
+.kicker::before{content:"";width:22px;height:2px;background:var(--teal-500);border-radius:2px}
+.section-head h2{font-size:clamp(28px,4vw,40px);font-weight:800;color:var(--navy-900);margin-bottom:14px}
+.section-head p{font-size:17px;color:var(--ink-soft)}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.86);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:19px;color:var(--navy-900)}
+.logo-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,var(--navy-800),var(--teal-600));
+  display:grid;place-items:center;color:#fff;
+}
+.logo small{display:block;font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--teal-600);text-transform:uppercase}
+.nav-links{display:flex;gap:28px;font-size:15px;font-weight:600;color:var(--ink-soft)}
+.nav-links a{transition:color .18s}
+.nav-links a:hover{color:var(--navy-900)}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--font-body);font-weight:700;font-size:15px;
+  padding:13px 24px;border-radius:999px;border:none;cursor:pointer;
+  transition:transform .18s,box-shadow .18s,background .18s;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--blue-600);color:#fff;box-shadow:0 4px 16px rgba(29,91,214,.30)}
+.btn-primary:hover{background:var(--blue-500);box-shadow:0 6px 22px rgba(29,91,214,.38);transform:translateY(-1px)}
+.btn-telegram{background:var(--teal-600);color:#fff;box-shadow:0 4px 16px rgba(14,116,144,.28)}
+.btn-telegram:hover{background:var(--teal-500);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--navy-800);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--teal-500);color:var(--teal-600)}
+.btn-sm{padding:10px 18px;font-size:14px}
+
+/* ---------- Hero ---------- */
+.hero{
+  background:
+    radial-gradient(1100px 480px at 85% -10%,rgba(13,148,168,.20),transparent 60%),
+    radial-gradient(900px 420px at -10% 110%,rgba(46,110,232,.16),transparent 60%),
+    linear-gradient(160deg,var(--navy-900) 0%,var(--navy-800) 55%,#0f3452 100%);
+  color:#fff;overflow:hidden;position:relative;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(720px 480px at 70% 40%,#000 30%,transparent 75%);
+}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding:104px 0 120px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(13,148,168,.18);border:1px solid rgba(13,148,168,.45);
+  color:#7fd9e8;font-size:13px;font-weight:700;letter-spacing:.05em;
+  padding:7px 15px;border-radius:999px;margin-bottom:26px;
+}
+.hero h1{font-size:clamp(38px,5.4vw,60px);font-weight:800;letter-spacing:-.02em;margin-bottom:20px}
+.hero h1 .accent{background:linear-gradient(92deg,#4fc3d9,#6ee7a0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:19px;color:#b8c6dd;max-width:520px;margin-bottom:36px}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:44px}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap}
+.hero-stat b{display:block;font-family:var(--font-display);font-size:26px;font-weight:800;color:#fff}
+.hero-stat span{font-size:13.5px;color:#8fa2c0}
+
+/* hero flow card */
+.hero-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:var(--radius-lg);
+  backdrop-filter:blur(8px);
+  padding:28px;
+  box-shadow:0 24px 60px rgba(0,0,0,.35);
+}
+.hero-card h3{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7fd9e8;margin-bottom:18px}
+.hc-step{display:flex;align-items:center;gap:14px;padding:11px 12px;border-radius:12px;transition:background .3s}
+.hc-step.active{background:rgba(13,148,168,.22)}
+.hc-num{
+  flex:none;width:30px;height:30px;border-radius:9px;
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-size:13px;font-weight:700;
+  background:rgba(255,255,255,.10);color:#cfe0f5;
+}
+.hc-step.active .hc-num{background:var(--teal-500);color:#fff}
+.hc-step span{font-size:14.5px;font-weight:600;color:#d5e1f2}
+.hc-bar{height:3px;background:rgba(255,255,255,.10);border-radius:3px;margin-top:18px;overflow:hidden}
+.hc-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal-500),#6ee7a0);border-radius:3px;transition:width .6s ease}
+
+/* ---------- Entry channels ---------- */
+.channels{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.channel{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:38px;box-shadow:var(--shadow-1);
+  transition:transform .22s,box-shadow .22s,border-color .22s;
+}
+.channel:hover{transform:translateY(-4px);box-shadow:var(--shadow-2);border-color:var(--teal-500)}
+.channel .icon-wrap{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;margin-bottom:22px}
+.channel:nth-child(1) .icon-wrap{background:var(--teal-100);color:var(--teal-600)}
+.channel:nth-child(2) .icon-wrap{background:#e4effc;color:var(--blue-600)}
+.channel h3{font-size:21px;font-weight:700;color:var(--navy-900);margin-bottom:10px}
+.channel p{color:var(--ink-soft);font-size:15.5px;margin-bottom:20px}
+.channel ul{list-style:none;display:grid;gap:9px}
+.channel li{display:flex;align-items:center;gap:10px;font-size:14.5px;font-weight:600;color:var(--ink)}
+.channel li svg{flex:none;color:var(--green-600)}
+
+/* ---------- Flow timeline ---------- */
+.flow-section{background:linear-gradient(180deg,#fff 0%,var(--paper) 100%)}
+.flow{position:relative;max-width:820px;margin:0 auto}
+.flow::before{
+  content:"";position:absolute;left:31px;top:16px;bottom:16px;width:2px;
+  background:linear-gradient(180deg,var(--blue-500) 0%,var(--teal-500) 60%,var(--green-600) 100%);
+  opacity:.35;
+}
+.flow-step{
+  position:relative;display:flex;gap:26px;padding:14px 0;
+  opacity:0;transform:translateY(22px);
+  transition:opacity .55s ease,transform .55s ease;
+}
+.flow-step.visible{opacity:1;transform:none}
+.flow-num{
+  flex:none;width:64px;height:64px;border-radius:50%;
+  display:grid;place-items:center;position:relative;z-index:1;
+  font-family:var(--font-display);font-size:21px;font-weight:800;color:#fff;
+  background:var(--navy-800);
+  box-shadow:0 0 0 6px var(--paper),var(--shadow-1);
+}
+.flow-step:nth-child(-n+4) .flow-num{background:var(--navy-800)}
+.flow-step:nth-child(n+5):nth-child(-n+7) .flow-num{background:var(--teal-600)}
+.flow-step:nth-child(n+8) .flow-num{background:var(--green-600)}
+.flow-body{
+  flex:1;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius-md);padding:22px 26px;box-shadow:var(--shadow-1);
+  transition:transform .2s,box-shadow .2s;
+}
+.flow-step:hover .flow-body{transform:translateX(4px);box-shadow:var(--shadow-2)}
+.flow-body h3{font-size:18.5px;font-weight:700;color:var(--navy-900);margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.flow-tag{
+  font-family:var(--font-body);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 10px;border-radius:999px;
+}
+.tag-ai{background:var(--teal-100);color:var(--teal-600)}
+.tag-shop{background:#eef2f8;color:var(--ink-soft)}
+.tag-auto{background:var(--green-100);color:var(--green-600)}
+.flow-body p{font-size:15px;color:var(--ink-soft)}
+
+/* ---------- Services / AI recommendation ---------- */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.svc{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:34px 30px;box-shadow:var(--shadow-1);
+  transition:transform .22s,box-shadow .22s;
+}
+.svc:hover{transform:translateY(-5px);box-shadow:var(--shadow-2)}
+.svc .icon-wrap{
+  width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+  background:var(--navy-900);color:#7fd9e8;margin-bottom:20px;
+}
+.svc h3{font-size:19px;font-weight:700;color:var(--navy-900);margin-bottom:9px}
+.svc p{font-size:14.5px;color:var(--ink-soft)}
+
+/* ---------- Quotes ---------- */
+.quotes-section{
+  background:
+    radial-gradient(900px 400px at 15% 0%,rgba(13,148,168,.16),transparent 55%),
+    linear-gradient(165deg,var(--navy-900),var(--navy-800));
+  color:#fff;
+}
+.quotes-section .section-head h2{color:#fff}
+.quotes-section .section-head p{color:#a9bad4}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
+.tier{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);
+  border-radius:var(--radius-lg);padding:36px 30px;
+  display:flex;flex-direction:column;
+  transition:transform .22s,border-color .22s,background .22s;
+}
+.tier:hover{transform:translateY(-5px);border-color:rgba(127,217,232,.55)}
+.tier.featured{
+  background:linear-gradient(170deg,rgba(13,148,168,.24),rgba(13,148,168,.08));
+  border-color:var(--teal-500);
+  position:relative;
+}
+.tier-flag{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:var(--teal-500);color:#fff;font-size:11.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:5px 16px;border-radius:999px;white-space:nowrap;
+}
+.tier h3{font-size:22px;font-weight:800;margin-bottom:6px}
+.tier .tier-sub{font-size:14px;color:#9fb2cd;margin-bottom:24px}
+.tier ul{list-style:none;display:grid;gap:12px;margin-bottom:30px;flex:1}
+.tier li{display:flex;gap:11px;font-size:14.5px;color:#d5e1f2;align-items:flex-start}
+.tier li svg{flex:none;margin-top:3px;color:#6ee7a0}
+.tier .btn{justify-content:center}
+
+/* ---------- Modules ---------- */
+.mod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.mod{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-md);
+  padding:26px 22px;box-shadow:var(--shadow-1);
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+.mod:hover{transform:translateY(-4px);box-shadow:var(--shadow-2);border-color:var(--teal-500)}
+.mod .icon-wrap{
+  width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+  background:var(--teal-100);color:var(--teal-600);margin-bottom:16px;
+}
+.mod h3{font-size:16px;font-weight:700;color:var(--navy-900);margin-bottom:6px}
+.mod p{font-size:13.5px;color:var(--ink-soft)}
+
+/* ---------- Booking ---------- */
+.booking{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
+.booking-copy h2{font-size:clamp(26px,3.4vw,36px);font-weight:800;color:var(--navy-900);margin-bottom:16px}
+.booking-copy p{font-size:16.5px;color:var(--ink-soft);margin-bottom:28px;max-width:440px}
+.booking-points{display:grid;gap:16px}
+.bp{display:flex;gap:14px;align-items:flex-start}
+.bp .icon-wrap{flex:none;width:40px;height:40px;border-radius:11px;background:var(--green-100);color:var(--green-600);display:grid;place-items:center}
+.bp b{display:block;font-family:var(--font-display);font-size:15.5px;color:var(--navy-900)}
+.bp span{font-size:14px;color:var(--ink-soft)}
+.form-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:36px;box-shadow:var(--shadow-2);
+}
+.form-card h3{font-size:20px;font-weight:700;color:var(--navy-900);margin-bottom:4px}
+.form-card .form-sub{font-size:14px;color:var(--ink-faint);margin-bottom:26px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:grid;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;font-weight:700;color:var(--ink-soft)}
+.field input,.field select,.field textarea{
+  font-family:var(--font-body);font-size:15px;color:var(--ink);
+  padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--radius-sm);
+  background:#fbfdff;outline:none;transition:border-color .18s,box-shadow .18s;width:100%;
+}
+.field textarea{resize:vertical;min-height:88px}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(13,148,168,.14);
+}
+.form-card .btn{width:100%;justify-content:center;margin-top:22px}
+.form-note{font-size:12.5px;color:var(--ink-faint);text-align:center;margin-top:14px}
+.form-success{
+  display:none;text-align:center;padding:40px 10px;
+}
+.form-success.show{display:block}
+.form-success .icon-wrap{width:64px;height:64px;border-radius:50%;background:var(--green-100);color:var(--green-600);display:grid;place-items:center;margin:0 auto 18px}
+.form-success h4{font-size:20px;color:var(--navy-900);margin-bottom:8px}
+.form-success p{font-size:14.5px;color:var(--ink-soft)}
+
+/* ---------- Benefits strip ---------- */
+.benefits{background:var(--navy-900);color:#fff;padding:56px 0}
+.benefits-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+.benefit{display:flex;align-items:center;gap:13px}
+.benefit .icon-wrap{flex:none;width:44px;height:44px;border-radius:12px;background:rgba(13,148,168,.22);color:#7fd9e8;display:grid;place-items:center}
+.benefit span{font-size:14px;font-weight:700;line-height:1.35}
+
+/* ---------- Footer ---------- */
+.footer{background:#0a1830;color:#8fa2c0;padding:44px 0}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.footer .logo{color:#fff}
+.footer p{font-size:13.5px}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .reveal,.flow-step{opacity:1;transform:none}
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width:960px){
+  .hero-inner{grid-template-columns:1fr;padding:72px 0 84px}
+  .svc-grid,.tiers{grid-template-columns:1fr 1fr}
+  .mod-grid{grid-template-columns:1fr 1fr}
+  .booking{grid-template-columns:1fr}
+  .benefits-grid{grid-template-columns:repeat(2,1fr);gap:26px}
+  .nav-links{display:none}
+}
+@media (max-width:600px){
+  .section{padding:64px 0}
+  .channels,.svc-grid,.tiers,.mod-grid{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .benefits-grid{grid-template-columns:1fr}
+  .flow::before{left:23px}
+  .flow-num{width:48px;height:48px;font-size:17px}
+  .hero-stats{gap:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l1.5-4.5A2 2 0 0 1 8.4 6h7.2a2 2 0 0 1 1.9 1.5L19 12"/><path d="M4 12h16a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/></svg>
+      </span>
+      <span>AI AutoCare<small>Smart Service. Better Rides.</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#flow">How It Works</a>
+      <a href="#services">Services</a>
+      <a href="#quotes">Quotes</a>
+      <a href="#modules">System</a>
+    </div>
+    <a class="btn btn-primary btn-sm" href="#book">Book Appointment</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="container hero-inner">
+    <div>
+      <span class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+        Webpage + Telegram Driven Service Workflow
+      </span>
+      <h1>Your car, cared for by <span class="accent">AI intelligence</span> — from inquiry to follow-up.</h1>
+      <p class="lead">Send your car details through our webpage or Telegram bot. Our AI recommends the right tires and service, books your slot, inspects with photo evidence, and quotes you three transparent options.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#book">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Book an Appointment
+        </a>
+        <a class="btn btn-telegram" href="https://t.me/" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6a1.4 1.4 0 0 0-1.9-1.6L2.7 9.7c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.3c.4 1.1 1.8 1.4 2.6.5l2.4-2.6 4.5 3.3c1 .7 2.4.2 2.6-1l3-14.6zM9.4 13.2l8.7-6.9-6.6 7.6-.3 3-1.8-3.7z"/></svg>
+          Chat on Telegram
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>10</b><span>Automated workflow steps</span></div>
+        <div class="hero-stat"><b>3</b><span>Quote options, every job</span></div>
+        <div class="hero-stat"><b>24/7</b><span>AI intake &amp; follow-up</span></div>
+      </div>
+    </div>
+    <aside class="hero-card" aria-label="Live workflow preview">
+      <h3>Live Service Flow</h3>
+      <div id="heroFlow">
+        <div class="hc-step active"><span class="hc-num">1</span><span>Customer enters via Webpage / Telegram</span></div>
+        <div class="hc-step"><span class="hc-num">2</span><span>Vehicle info &amp; request received</span></div>
+        <div class="hc-step"><span class="hc-num">3</span><span>AI recommends tires / service</span></div>
+        <div class="hc-step"><span class="hc-num">4</span><span>Appointment booked</span></div>
+        <div class="hc-step"><span class="hc-num">5</span><span>AI report + 3 quotes sent</span></div>
+        <div class="hc-step"><span class="hc-num">6</span><span>Service completed &amp; follow-up</span></div>
+      </div>
+      <div class="hc-bar"><i id="heroBar"></i></div>
+    </aside>
+  </div>
+</header>
+
+<!-- ============ ENTRY CHANNELS ============ -->
+<section class="section" id="channels">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Entry Channels</span>
+      <h2>Two doors in. One smart workflow.</h2>
+      <p>Whether customers visit the webpage or message the Telegram bot, both channels feed the same AI-driven intake — no phone tag, no lost requests.</p>
+    </div>
+    <div class="channels">
+      <article class="channel reveal">
+        <div class="icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3>Webpage Intake</h3>
+        <p>Customers visit the webpage, fill in vehicle details, and get instant AI recommendations — bookable in the same session.</p>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Guided vehicle info form</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Instant AI service suggestions</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Online appointment booking</li>
+        </ul>
+      </article>
+      <article class="channel reveal">
+        <div class="icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6a1.4 1.4 0 0 0-1.9-1.6L2.7 9.7c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.3c.4 1.1 1.8 1.4 2.6.5l2.4-2.6 4.5 3.3c1 .7 2.4.2 2.6-1l3-14.6zM9.4 13.2l8.7-6.9-6.6 7.6-.3 3-1.8-3.7z"/></svg>
+        </div>
+        <h3>Telegram Bot</h3>
+        <p>Customers send an inquiry through Telegram and chat naturally — the bot collects details, recommends, books, and keeps them updated.</p>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Conversational inquiry, 24/7</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Reports &amp; quotes delivered in-chat</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Maintenance reminders, automatically</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLOW ============ -->
+<section class="section flow-section" id="flow">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">How It Works</span>
+      <h2>The 10-step AI customer flow</h2>
+      <p>Every job follows the same transparent path — from first message to next-service reminder.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-body">
+        <h3>Customer enters via Webpage / Telegram <span class="flow-tag tag-shop">Intake</span></h3>
+        <p>Webpage and Telegram act as the two main intake channels — customers choose whichever is easier.</p>
+      </div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-body">
+        <h3>Input vehicle info &amp; request <span class="flow-tag tag-shop">Intake</span></h3>
+        <p>Car model, year, plate number, tire size, and the basic issue or service request — captured in one structured step.</p>
+      </div></div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-body">
+        <h3>AI recommends tires / service <span class="flow-tag tag-ai">AI</span></h3>
+        <p>The AI recommends suitable tires and a maintenance package, and suggests an initial inspection focus for the technician.</p>
+      </div></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-body">
+        <h3>Book appointment <span class="flow-tag tag-shop">Booking</span></h3>
+        <p>The customer books a service appointment at a time that suits them — confirmed instantly.</p>
+      </div></div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-body">
+        <h3>Technician photos + checklist <span class="flow-tag tag-shop">In-Store</span></h3>
+        <p>In-store, the technician takes photos by phone and completes the digital inspection checklist.</p>
+      </div></div>
+      <div class="flow-step"><div class="flow-num">6</div><div class="flow-body">
+        <h3>AI vehicle report + 3 quotes <span class="flow-tag tag-ai">AI</span></h3>
+        <p>The AI compiles a vehicle condition report and generates three quotation options: Essential, Recommended, and Complete.</p>
+      </div></div>
+      <div class="flow-step"><div class="flow-num">7</div><div class="flow-body">
+        <h3>Customer chooses option <span class="flow-tag tag-shop">Decision</span></h3>
+        <p>The customer reviews the report and selects the preferred quote — no pressure, full transparency.</p>
+      </div></div>
+      <div class="flow-step"><div class="flow-num">8</div><div class="flow-body">
+        <h3>Service completed <span class="flow-tag tag-shop">Workshop</span></h3>
+        <p>Maintenance or repair is completed exactly as quoted.</p>
+      </div></div>
+      <div class="flow-step"><div class="flow-num">9</div><div class="flow-body">
+        <h3>System records mileage / parts / next service date <span class="flow-tag tag-auto">Auto</span></h3>
+        <p>Mileage, parts used, and the next service date are logged automatically to the customer's vehicle history.</p>
+      </div></div>
+      <div class="flow-step"><div class="flow-num">10</div><div class="flow-body">
+        <h3>AI follow-up &amp; maintenance reminder <span class="flow-tag tag-auto">Auto</span></h3>
+        <p>The AI sends a follow-up message and future maintenance reminders — delivered through Telegram or webpage account notifications.</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">AI Recommendation</span>
+      <h2>What the AI recommends for your car</h2>
+      <p>Based on your vehicle info and request, the AI engine prepares a tailored service plan before you even arrive.</p>
+    </div>
+    <div class="svc-grid">
+      <article class="svc reveal">
+        <div class="icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M4.9 19.1l2.2-2.2M16.9 7.1l2.2-2.2"/></svg>
+        </div>
+        <h3>Suitable Tire Recommendation</h3>
+        <p>Matched to your car model, year, and tire size — the right fitment, load rating, and budget options for how you actually drive.</p>
+      </article>
+      <article class="svc reveal">
+        <div class="icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4.5 4.5 0 0 0-6.1 5.9L3 17.8a2 2 0 0 0 2.8 2.8l5.6-5.6a4.5 4.5 0 0 0 5.9-6.1l-2.9 2.9-2.5-.7-.7-2.5 3.5-3.3z"/></svg>
+        </div>
+        <h3>Maintenance Package</h3>
+        <p>A service package recommended from your mileage and vehicle history — oil, filters, fluids, brakes — scoped to what's actually due.</p>
+      </article>
+      <article class="svc reveal">
+        <div class="icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v3l2 2"/></svg>
+        </div>
+        <h3>Initial Inspection Focus</h3>
+        <p>From your described issue, the AI flags what the technician should check first — so inspection time goes where it matters.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUOTES ============ -->
+<section class="section quotes-section" id="quotes">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker" style="color:#7fd9e8">AI Output</span>
+      <h2>One report. Three clear quotes.</h2>
+      <p>After inspection, you receive a full vehicle condition report plus three quotation options — you decide how far to go.</p>
+    </div>
+    <div class="tiers">
+      <article class="tier reveal">
+        <h3>Essential</h3>
+        <p class="tier-sub">Fix what's needed now</p>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Safety-critical repairs only</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Vehicle condition report included</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Lowest upfront cost</li>
+        </ul>
+        <a class="btn btn-ghost" style="color:#d5e1f2;border-color:rgba(255,255,255,.25)" href="#book">Choose Essential</a>
+      </article>
+      <article class="tier featured reveal">
+        <span class="tier-flag">Most Chosen</span>
+        <h3>Recommended</h3>
+        <p class="tier-sub">The AI's balanced pick</p>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Essential</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Due maintenance from your history</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Items flagged by AI inspection</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Best value over the next 12 months</li>
+        </ul>
+        <a class="btn btn-telegram" href="#book">Choose Recommended</a>
+      </article>
+      <article class="tier reveal">
+        <h3>Complete</h3>
+        <p class="tier-sub">Full refresh, worry-free</p>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Recommended</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Preventive replacements &amp; detailing</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Longest interval to next service</li>
+        </ul>
+        <a class="btn btn-ghost" style="color:#d5e1f2;border-color:rgba(255,255,255,.25)" href="#book">Choose Complete</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODULES ============ -->
+<section class="section" id="modules">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Core System Modules</span>
+      <h2>Integrated. Intelligent. Customer-focused.</h2>
+      <p>Seven modules working as one system — built for AutoCare.</p>
+    </div>
+    <div class="mod-grid">
+      <article class="mod reveal">
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <h3>Webpage</h3><p>Customer-facing intake, booking, and account notifications.</p>
+      </article>
+      <article class="mod reveal">
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6a1.4 1.4 0 0 0-1.9-1.6L2.7 9.7c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.3c.4 1.1 1.8 1.4 2.6.5l2.4-2.6 4.5 3.3c1 .7 2.4.2 2.6-1l3-14.6zM9.4 13.2l8.7-6.9-6.6 7.6-.3 3-1.8-3.7z"/></svg></div>
+        <h3>Telegram Bot</h3><p>Conversational inquiries, updates, and reminders in chat.</p>
+      </article>
+      <article class="mod reveal">
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 0-4 4c0 1-.5 1.6-1.2 2A4 4 0 0 0 8 16.5V19a2 2 0 0 0 4 0V5a2 2 0 0 1 4 0v14a2 2 0 0 0 4 0v-2.5a4 4 0 0 0 1.2-7.5C20.5 8.6 20 8 20 7a4 4 0 0 0-4-4"/></svg></div>
+        <h3>AI Recommendation Engine</h3><p>Tire, package, and inspection-focus suggestions from vehicle data.</p>
+      </article>
+      <article class="mod reveal">
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div>
+        <h3>Inspection Report</h3><p>Photo evidence and checklist results compiled per vehicle.</p>
+      </article>
+      <article class="mod reveal">
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6"/><path d="M12 11v6M9.5 13.5h5"/></svg></div>
+        <h3>Quotation Generator</h3><p>Three-tier quotes generated from the inspection findings.</p>
+      </article>
+      <article class="mod reveal">
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
+        <h3>Customer Database</h3><p>Vehicle history: mileage, parts used, next service date.</p>
+      </article>
+      <article class="mod reveal">
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></div>
+        <h3>Reminder Automation</h3><p>AI follow-ups and future maintenance reminders, on schedule.</p>
+      </article>
+      <article class="mod reveal">
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Built for AutoCare</h3><p>Integrated, intelligent, customer-focused by design.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOKING ============ -->
+<section class="section" id="book" style="background:#fff">
+  <div class="container booking">
+    <div class="booking-copy reveal">
+      <span class="kicker">Get Started</span>
+      <h2>Tell us about your car. The AI does the rest.</h2>
+      <p>Fill in your vehicle details and what you need — you'll get AI recommendations and a booking confirmation through your chosen channel.</p>
+      <div class="booking-points">
+        <div class="bp">
+          <div class="icon-wrap"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div><b>Faster response</b><span>AI handles intake instantly — no waiting on hold.</span></div>
+        </div>
+        <div class="bp">
+          <div class="icon-wrap"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+          <div><b>Smarter recommendations</b><span>Suggestions built from your car's data, not guesswork.</span></div>
+        </div>
+        <div class="bp">
+          <div class="icon-wrap"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <div><b>Full transparency</b><span>Photo evidence, condition report, and three clear quotes.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-card reveal">
+      <form id="bookForm" novalidate>
+        <h3>Vehicle Info &amp; Request</h3>
+        <p class="form-sub">Step 2 of the customer flow — this is where it begins.</p>
+        <div class="form-grid">
+          <div class="field"><label for="f-model">Car Model</label><input id="f-model" name="model" type="text" placeholder="e.g. Toyota Hilux" required></div>
+          <div class="field"><label for="f-year">Year</label><input id="f-year" name="year" type="number" min="1980" max="2027" placeholder="e.g. 2021" required></div>
+          <div class="field"><label for="f-plate">Plate Number</label><input id="f-plate" name="plate" type="text" placeholder="e.g. SAB 1234 X" required></div>
+          <div class="field"><label for="f-tire">Tire Size (if known)</label><input id="f-tire" name="tire" type="text" placeholder="e.g. 265/65 R17"></div>
+          <div class="field full"><label for="f-service">Service Needed</label>
+            <select id="f-service" name="service" required>
+              <option value="" selected disabled>Select a service…</option>
+              <option>Tire replacement / rotation</option>
+              <option>Maintenance package</option>
+              <option>General inspection</option>
+              <option>Brake service</option>
+              <option>Battery / electrical</option>
+              <option>Something else (describe below)</option>
+            </select>
+          </div>
+          <div class="field full"><label for="f-issue">Basic Issue / Request</label><textarea id="f-issue" name="issue" placeholder="Describe the issue or what you'd like done…"></textarea></div>
+          <div class="field full"><label for="f-channel">Preferred Contact Channel</label>
+            <select id="f-channel" name="channel">
+              <option>Telegram</option>
+              <option>Webpage account notification</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 0-4 4c0 1-.5 1.6-1.2 2A4 4 0 0 0 8 16.5V19a2 2 0 0 0 4 0V5a2 2 0 0 1 4 0v14a2 2 0 0 0 4 0v-2.5a4 4 0 0 0 1.2-7.5C20.5 8.6 20 8 20 7a4 4 0 0 0-4-4"/></svg>
+          Get AI Recommendation &amp; Book
+        </button>
+        <p class="form-note">Demo form — submissions are not yet connected to a backend.</p>
+      </form>
+      <div class="form-success" id="formSuccess">
+        <div class="icon-wrap"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h4>Request received</h4>
+        <p>In the live system, the AI would now analyze your vehicle info and reply with tire &amp; service recommendations plus available booking slots.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENEFITS ============ -->
+<section class="benefits">
+  <div class="container benefits-grid">
+    <div class="benefit"><div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><span>Faster Response</span></div>
+    <div class="benefit"><div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div><span>Smarter Recommendations</span></div>
+    <div class="benefit"><div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></div><span>Better Customer Experience</span></div>
+    <div class="benefit"><div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div><span>Higher Efficiency &amp; Accuracy</span></div>
+    <div class="benefit"><div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8.5c-.7-.8-1.8-1.3-3-1.3-2 0-3.5 1.1-3.5 2.4s1.2 2 3.5 2.4c2.6.5 3.5 1.3 3.5 2.6 0 1.3-1.6 2.4-3.5 2.4-1.4 0-2.6-.6-3.2-1.4M12 5.5v13"/></svg></div><span>More Revenue &amp; Retention</span></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l1.5-4.5A2 2 0 0 1 8.4 6h7.2a2 2 0 0 1 1.9 1.5L19 12"/><path d="M4 12h16a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/></svg>
+      </span>
+      <span>AI AutoCare<small>Smart Service. Better Rides.</small></span>
+    </a>
+    <p>Integrated. Intelligent. Customer-focused. Built for AutoCare.</p>
+  </div>
+</footer>
+
+<script>
+// Reveal on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal, .flow-step').forEach(el => io.observe(el));
+
+// Hero flow auto-cycle
+const hcSteps = document.querySelectorAll('#heroFlow .hc-step');
+const heroBar = document.getElementById('heroBar');
+let hcIdx = 0;
+function cycleHero() {
+  hcSteps.forEach((s, i) => s.classList.toggle('active', i === hcIdx));
+  heroBar.style.width = ((hcIdx + 1) / hcSteps.length * 100) + '%';
+  hcIdx = (hcIdx + 1) % hcSteps.length;
+}
+cycleHero();
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  setInterval(cycleHero, 2200);
+} else {
+  heroBar.style.width = '100%';
+}
+
+// Demo booking form
+document.getElementById('bookForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  if (!this.checkValidity()) { this.reportValidity(); return; }
+  this.style.display = 'none';
+  document.getElementById('formSuccess').classList.add('show');
+});
+</script>
+</body>
+</html>
