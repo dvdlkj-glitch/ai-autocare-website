@@ -109,7 +109,7 @@ button{font-family:inherit}
 /* ---------- Interactive car ---------- */
 .car-section{background:#fff}
 .car-stage{position:relative;max-width:860px;margin:0 auto}
-.car-stage svg{width:100%;height:auto}
+.car-stage img{width:100%;height:auto;user-select:none;-webkit-user-drag:none;border-radius:var(--radius-lg)}
 .hotspot{
   position:absolute;width:44px;height:44px;transform:translate(-50%,-50%);
   border-radius:50%;border:none;cursor:pointer;background:transparent;padding:0;
@@ -345,48 +345,13 @@ button{font-family:inherit}
       <h2>Tap where your car needs help</h2>
     </div>
     <div class="car-stage reveal" id="carStage">
-      <svg viewBox="0 0 620 260" role="img" aria-label="Side view of a car with tappable service points">
-        <!-- ground -->
-        <line x1="20" y1="236" x2="600" y2="236" stroke="#dde6f0" stroke-width="3" stroke-linecap="round"/>
-        <line x1="60" y1="250" x2="180" y2="250" stroke="#eaf1f8" stroke-width="3" stroke-linecap="round"/>
-        <line x1="420" y1="250" x2="560" y2="250" stroke="#eaf1f8" stroke-width="3" stroke-linecap="round"/>
-        <!-- body -->
-        <path d="M44 192 L46 158 Q50 136 76 130 L100 126 L150 94 Q156 88 168 88 L322 86 Q338 86 348 94 L412 124 L512 132 Q548 138 554 158 L556 192 L514 192 A44 44 0 0 0 426 192 L194 192 A44 44 0 0 0 106 192 Z"
-              fill="#f0f6fb" stroke="#16233b" stroke-width="3.5" stroke-linejoin="round"/>
-        <!-- rear window -->
-        <path d="M160 96 L124 124 L162 124 Z" fill="#cdeef4" stroke="#16233b" stroke-width="2.5" stroke-linejoin="round"/>
-        <!-- side windows -->
-        <path d="M176 94 L316 92 Q326 92 332 97 L338 124 L176 124 Z" fill="#cdeef4" stroke="#16233b" stroke-width="2.5" stroke-linejoin="round"/>
-        <line x1="252" y1="93" x2="252" y2="124" stroke="#16233b" stroke-width="2.5"/>
-        <!-- windshield -->
-        <path d="M350 98 L402 122 L352 122 Z" fill="#cdeef4" stroke="#16233b" stroke-width="2.5" stroke-linejoin="round"/>
-        <!-- door line + handles -->
-        <line x1="252" y1="128" x2="252" y2="186" stroke="#16233b" stroke-width="2" opacity=".5"/>
-        <rect x="262" y="138" width="20" height="4" rx="2" fill="#16233b" opacity=".6"/>
-        <rect x="208" y="138" width="20" height="4" rx="2" fill="#16233b" opacity=".6"/>
-        <!-- lights -->
-        <path d="M524 140 Q546 142 550 156 L522 152 Z" fill="#ffe9a8" stroke="#16233b" stroke-width="2"/>
-        <path d="M48 142 L70 140 L70 152 L48 154 Z" fill="#f8b4b4" stroke="#16233b" stroke-width="2"/>
-        <!-- hood line -->
-        <line x1="416" y1="128" x2="504" y2="135" stroke="#16233b" stroke-width="2" opacity=".4"/>
-        <!-- wheels -->
-        <g>
-          <circle cx="150" cy="192" r="40" fill="#132b52" stroke="#16233b" stroke-width="3"/>
-          <circle cx="150" cy="192" r="17" fill="#f0f6fb" stroke="#4fc3d9" stroke-width="3"/>
-          <path d="M150 178 v28 M136 192 h28 M140 182 l20 20 M160 182 l-20 20" stroke="#4fc3d9" stroke-width="2" stroke-linecap="round"/>
-        </g>
-        <g>
-          <circle cx="470" cy="192" r="40" fill="#132b52" stroke="#16233b" stroke-width="3"/>
-          <circle cx="470" cy="192" r="17" fill="#f0f6fb" stroke="#4fc3d9" stroke-width="3"/>
-          <path d="M470 178 v28 M456 192 h28 M460 182 l20 20 M480 182 l-20 20" stroke="#4fc3d9" stroke-width="2" stroke-linecap="round"/>
-        </g>
-      </svg>
+      <img src="assets/car-side.webp" width="1376" height="768" alt="Side view of a navy SUV with tappable service points" loading="lazy">
 
-      <!-- hotspots (positioned over the SVG) -->
-      <button class="hotspot" style="left:75.8%;top:73.8%" data-service="Tyre replacement / rotation" data-title="Tyres" data-desc="Worn, flat or noisy? AI matches the right tyres to your car." aria-label="Tyre service"><i></i></button>
-      <button class="hotspot" style="left:24.2%;top:73.8%" data-service="Brake service" data-title="Brakes" data-desc="Squeaking or soft pedal? Get brakes checked and quoted." aria-label="Brake service"><i></i></button>
-      <button class="hotspot" style="left:75%;top:46%" data-service="Maintenance package" data-title="Engine &amp; Servicing" data-desc="Oil, filters, fluids — a package based on your mileage." aria-label="Engine servicing"><i></i></button>
-      <button class="hotspot" style="left:40%;top:38%" data-service="General inspection" data-title="Full Check-Up" data-desc="Photo inspection, condition report and 3 quote options." aria-label="Full inspection"><i></i></button>
+      <!-- hotspots (positioned over the photo) -->
+      <button class="hotspot" style="left:27.8%;top:64.5%" data-service="Tyre replacement / rotation" data-title="Tyres" data-desc="Worn, flat or noisy? AI matches the right tyres to your car." aria-label="Tyre service"><i></i></button>
+      <button class="hotspot" style="left:73%;top:64.5%" data-service="Brake service" data-title="Brakes" data-desc="Squeaking or soft pedal? Get brakes checked and quoted." aria-label="Brake service"><i></i></button>
+      <button class="hotspot" style="left:26%;top:47%" data-service="Maintenance package" data-title="Engine &amp; Servicing" data-desc="Oil, filters, fluids — a package based on your mileage." aria-label="Engine servicing"><i></i></button>
+      <button class="hotspot" style="left:57%;top:38%" data-service="General inspection" data-title="Full Check-Up" data-desc="Photo inspection, condition report and 3 quote options." aria-label="Full inspection"><i></i></button>
 
       <div class="car-tip" id="carTip">
         <b id="tipTitle"></b>
